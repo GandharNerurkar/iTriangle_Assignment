@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,8 +9,11 @@ import DataTable, { type Column } from '../components/common/DataTable';
 import LoadingIndicator from '../components/common/LoadingIndicator';
 import { formatDate } from '../utils/format';
 import type { Order } from '../types';
+import { Pagination } from '@mui/material';
 
 function OrdersPage() {
+  const [page, setPage] = useState(1);
+const rowsPerPage = 10;
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((state) => state.orders);
 
@@ -36,6 +39,11 @@ function OrdersPage() {
     []
   );
 
+  const paginatedRows = useMemo(() => {
+  const start = (page - 1) * rowsPerPage;
+  return items.slice(start, start + rowsPerPage);
+}, [items, page]);
+
   return (
     <Box>
       <Grid container justifyContent="space-between" alignItems="center" spacing={2} sx={{ mb: 3 }}>
@@ -56,7 +64,23 @@ function OrdersPage() {
       ) : error ? (
         <Typography color="error">{error}</Typography>
       ) : (
-        <DataTable columns={columns} rows={items} noDataMessage="No orders found." />
+        <>
+  <DataTable
+    columns={columns}
+    rows={paginatedRows} // ✅ use paginated rows
+    noDataMessage="No orders found."
+  />
+
+
+  <Box display="flex" justifyContent="center" mt={2}>
+    <Pagination
+      count={Math.ceil(items.length / rowsPerPage)}
+      page={page}
+      onChange={(_, value) => setPage(value)}
+      color="primary"
+    />
+  </Box>
+</>
       )}
     </Box>
   );

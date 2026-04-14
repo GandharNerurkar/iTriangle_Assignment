@@ -11,10 +11,13 @@ import ModalForm from '../components/common/ModalForm';
 import FormInput from '../components/common/FormInput';
 import AlertSnackbar from '../components/common/AlertSnackbar';
 import LoadingIndicator from '../components/common/LoadingIndicator';
+import { Pagination } from '@mui/material';
 
 const initialForm = { name: '', price: 0, stock: 0 };
 
 function ProductsPage() {
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((state) => state.products);
   const [modalOpen, setModalOpen] = useState(false);
@@ -81,6 +84,11 @@ function ProductsPage() {
     }
   };
 
+  const paginatedRows = useMemo(() => {
+  const start = (page - 1) * rowsPerPage;
+  return items.slice(start, start + rowsPerPage);
+}, [items, page]);
+
   return (
     <Box>
       <Grid container justifyContent="space-between" alignItems="center" spacing={2} sx={{ mb: 3 }}>
@@ -99,7 +107,22 @@ function ProductsPage() {
       {loading ? (
         <LoadingIndicator />
       ) : (
-        <DataTable columns={columns} rows={items} noDataMessage="No products found." />
+        <>
+  <DataTable
+    columns={columns}
+    rows={paginatedRows}
+    noDataMessage="No products found."
+  />
+
+  <Box display="flex" justifyContent="center" mt={2}>
+    <Pagination
+      count={Math.ceil(items.length / rowsPerPage)}
+      page={page}
+      onChange={(_, value) => setPage(value)}
+      color="primary"
+    />
+  </Box>
+</>
       )}
       <ModalForm
         open={modalOpen}
