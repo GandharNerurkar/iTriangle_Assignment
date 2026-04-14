@@ -39,7 +39,7 @@ function ProductsPage() {
   const columns = useMemo<Column<Product>[]>(
     () => [
       { field: 'name', headerName: 'Product' },
-      { field: 'price', headerName: 'Price', renderCell: (row) => `$${row.price.toFixed(2)}` },
+      { field: 'price', headerName: 'Price', renderCell: (row) => `₹${row.price.toFixed(2)}` },
       { field: 'stock', headerName: 'Stock' },
       {
         field: 'id',

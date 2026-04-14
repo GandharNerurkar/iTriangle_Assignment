@@ -25,7 +25,7 @@ function OrdersPage() {
       {
         field: 'total',
         headerName: 'Total Amount',
-        renderCell: (row) => `$${row.total.toFixed(2)}`,
+        renderCell: (row) => `₹${row.total.toFixed(2)}`,
       },
       {
         field: 'createdAt',

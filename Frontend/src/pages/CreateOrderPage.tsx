@@ -10,7 +10,7 @@ import { fetchProducts } from '../redux/slices/productsSlice';
 import { createOrder } from '../redux/slices/ordersSlice';
 import AlertSnackbar from '../components/common/AlertSnackbar';
 import LoadingIndicator from '../components/common/LoadingIndicator';
-import { usd } from '../utils/format';
+import { inr } from '../utils/format';
 
 interface OrderRow {
   id: string;
@@ -168,7 +168,7 @@ function CreateOrderPage() {
                 <TextField
                   fullWidth
                   label="Subtotal"
-                  value={usd(row.subtotal)}
+                  value={inr(row.subtotal)}
                   size="small"
                   InputProps={{ readOnly: true }}
                 />
@@ -191,15 +191,15 @@ function CreateOrderPage() {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={4}>
                 <Typography color="text.secondary">Subtotal</Typography>
-                <Typography variant="h6">{usd(subtotal)}</Typography>
+                <Typography variant="h6">{inr(subtotal)}</Typography>
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Typography color="text.secondary">Tax (18%)</Typography>
-                <Typography variant="h6">{usd(tax)}</Typography>
+                <Typography variant="h6">{inr(tax)}</Typography>
               </Grid>
               <Grid item xs={12} sm={4}>
                 <Typography color="text.secondary">Total</Typography>
-                <Typography variant="h6">{usd(total)}</Typography>
+                <Typography variant="h6">{inr(total)}</Typography>
               </Grid>
             </Grid>
           </Paper>
