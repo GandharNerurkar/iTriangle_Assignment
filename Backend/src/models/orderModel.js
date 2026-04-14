@@ -1,26 +1,44 @@
 const db = require('../config/db');
 
-async function createOrder({ customer_id, subtotal, tax, total, stock = 0, items }) {
+async function createOrder({ customer_id, items }) {
   const client = await db.getClient();
 
   try {
     await client.query('BEGIN');
 
+    if (!items || items.length === 0) {
+      throw new Error("Items are required");
+    }
+
+    //this will calculate the values
+    let subtotal = 0;
+
+    for (const item of items) {
+      subtotal += item.quantity * item.price;
+    }
+
+    const tax = subtotal * 0.1;
+    const total = subtotal + tax;
+
     const orderResult = await client.query(
-      'INSERT INTO orders (customer_id, subtotal, tax, total, stock) VALUES ($1, $2, $3, $4, $5) RETURNING id, customer_id, subtotal, tax, total, stock, created_at',
-      [customer_id, subtotal, tax, total, stock]
+      `INSERT INTO orders (customer_id, subtotal, tax, total) 
+       VALUES ($1, $2, $3, $4) 
+       RETURNING id, customer_id, subtotal, tax, total, created_at`,
+      [customer_id, subtotal, tax, total]
     );
 
     const order = orderResult.rows[0];
 
     const insertPromises = items.map((item) =>
       client.query(
-        'INSERT INTO order_items (order_id, product_id, quantity, price) VALUES ($1, $2, $3, $4)',
+        `INSERT INTO order_items (order_id, product_id, quantity, price) 
+         VALUES ($1, $2, $3, $4)`,
         [order.id, item.product_id, item.quantity, item.price]
       )
     );
 
     await Promise.all(insertPromises);
+
     await client.query('COMMIT');
 
     return {
@@ -28,6 +46,7 @@ async function createOrder({ customer_id, subtotal, tax, total, stock = 0, items
       items,
     };
   } catch (error) {
+    console.error("ORDER ERROR:", error);
     await client.query('ROLLBACK');
     throw error;
   } finally {
@@ -44,7 +63,6 @@ async function getOrders() {
       o.subtotal,
       o.tax,
       o.total,
-      o.stock,
       o.created_at
     FROM orders o
     JOIN customers c ON c.id = o.customer_id
@@ -64,7 +82,6 @@ async function getOrderById(id) {
       o.subtotal,
       o.tax,
       o.total,
-      o.stock,
       o.created_at
     FROM orders o
     JOIN customers c ON c.id = o.customer_id
@@ -73,9 +90,7 @@ async function getOrderById(id) {
   );
 
   const order = orderResult.rows[0];
-  if (!order) {
-    return null;
-  }
+  if (!order) return null;
 
   const itemResult = await db.query(
     `SELECT

@@ -1,7 +1,7 @@
 const productModel = require('../models/productModel');
 const ApiError = require('../utils/apiError');
 
-async function createProduct({ name, price }) {
+async function createProduct({ name, price, stock }) {
   if (!name || price === undefined) {
     throw new ApiError(400, 'Name and price are required');
   }
@@ -11,15 +11,25 @@ async function createProduct({ name, price }) {
     throw new ApiError(400, 'Price must be a non-negative number');
   }
 
-  return productModel.createProduct({ name, price: numericPrice });
+  const numericStock = stock !== undefined ? Number(stock) : 0;
+
+  if (Number.isNaN(numericStock) || numericStock < 0) {
+    throw new ApiError(400, 'Stock must be a non-negative number');
+  }
+
+  return productModel.createProduct({
+    name,
+    price: numericPrice,
+    stock: numericStock,
+  });
 }
 
 async function getProducts() {
   return productModel.getProducts();
 }
 
-async function updateProduct(id, { name, price }) {
-  if (!name && price === undefined) {
+async function updateProduct(id, { name, price, stock }) {
+  if (!name && price === undefined && stock === undefined) {
     throw new ApiError(400, 'At least one field is required to update');
   }
 
@@ -36,7 +46,15 @@ async function updateProduct(id, { name, price }) {
     price = numericPrice;
   }
 
-  return productModel.updateProduct(id, { name, price });
+  if (stock !== undefined) {
+    const numericStock = Number(stock);
+    if (Number.isNaN(numericStock) || numericStock < 0) {
+      throw new ApiError(400, 'Stock must be a non-negative number');
+    }
+    stock = numericStock;
+  }
+
+  return productModel.updateProduct(id, { name, price, stock }); 
 }
 
 module.exports = {

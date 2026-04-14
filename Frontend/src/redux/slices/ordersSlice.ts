@@ -18,9 +18,23 @@ export const fetchOrders = createAsyncThunk('orders/fetch', async () => {
   return await orderService.list();
 });
 
-export const createOrder = createAsyncThunk('orders/create', async (payload: CreateOrderPayload) => {
-  return await orderService.create(payload);
-});
+export const createOrder = createAsyncThunk(
+  'orders/create',
+  async (payload: CreateOrderPayload, { rejectWithValue }) => {
+    try {
+      return await orderService.create(payload);
+    } catch (error: any) {
+      console.log("FULL ERROR:", error); // 👈 debug
+
+      return rejectWithValue(
+        error?.response?.data?.message || 
+        error?.response?.data ||            
+        error?.message ||                  
+        'Failed to create order'
+      );
+    }
+  }
+);
 
 const ordersSlice = createSlice({
   name: 'orders',

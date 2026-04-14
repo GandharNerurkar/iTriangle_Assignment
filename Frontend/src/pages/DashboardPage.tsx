@@ -40,43 +40,46 @@ function DashboardPage() {
         <LoadingIndicator />
       ) : (
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} xl={3}>
-            <SummaryCard
-              label="Total Customers"
-              value={customers.items.length}
-              icon={<PeopleOutlineRoundedIcon />}
-              iconColor="#0b6bda"
-              iconBackground="#e8f1ff"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} xl={3}>
-            <SummaryCard
-              label="Total Products"
-              value={products.items.length}
-              icon={<ViewInArOutlinedIcon />}
-              iconColor="#11a63a"
-              iconBackground="#e7f5ea"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} xl={3}>
-            <SummaryCard
-              label="Total Orders"
-              value={orders.items.length}
-              icon={<ShoppingCartOutlinedIcon />}
-              iconColor="#e39500"
-              iconBackground="#fdf2df"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} xl={3}>
-            <SummaryCard
-              label="Revenue"
-              value={`$${revenue.toFixed(2)}`}
-              icon={<TrendingUpRoundedIcon />}
-              iconColor="#1485cc"
-              iconBackground="#e4f3fb"
-            />
-          </Grid>
-        </Grid>
+  <Grid item xs={12} sm={6}>
+    <SummaryCard
+      label="Total Customers"
+      value={customers.items.length}
+      icon={<PeopleOutlineRoundedIcon />}
+      iconColor="#0b6bda"
+      iconBackground="#e8f1ff"
+    />
+  </Grid>
+
+  <Grid item xs={12} sm={6}>
+    <SummaryCard
+      label="Total Products"
+      value={products.items.length}
+      icon={<ViewInArOutlinedIcon />}
+      iconColor="#11a63a"
+      iconBackground="#e7f5ea"
+    />
+  </Grid>
+
+  <Grid item xs={12} sm={6}>
+    <SummaryCard
+      label="Total Orders"
+      value={orders.items.length}
+      icon={<ShoppingCartOutlinedIcon />}
+      iconColor="#e39500"
+      iconBackground="#fdf2df"
+    />
+  </Grid>
+
+  <Grid item xs={12} sm={6}>
+    <SummaryCard
+      label="Revenue"
+      value={`₹${revenue.toFixed(2)}`} 
+      icon={<TrendingUpRoundedIcon />}
+      iconColor="#1485cc"
+      iconBackground="#e4f3fb"
+    />
+  </Grid>
+</Grid>
       )}
     </Box>
   );

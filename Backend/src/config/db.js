@@ -1,5 +1,7 @@
-const { Pool } = require('pg');
-const { pg } = require('./env');
+import pkg from 'pg';
+const { Pool } = pkg;
+
+import { pg } from './env.js';
 
 const pool = new Pool(pg);
 
@@ -11,16 +13,12 @@ pool.on('error', (error) => {
   console.error('Unexpected idle client error', error);
 });
 
-async function query(text, params) {
+export async function query(text, params) {
   return pool.query(text, params);
 }
 
-async function getClient() {
+export async function getClient() {
   return pool.connect();
 }
 
-module.exports = {
-  query,
-  getClient,
-  pool,
-};
+export { pool };

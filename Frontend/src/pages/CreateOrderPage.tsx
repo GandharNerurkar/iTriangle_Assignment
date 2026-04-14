@@ -93,8 +93,7 @@ function CreateOrderPage() {
       setToast({ open: true, message: 'Order created successfully.', severity: 'success' });
       setTimeout(() => navigate('/orders'), 500);
     } catch (err: any) {
-      const message = err?.response?.data?.message ?? err?.message ?? 'Failed to create order.';
-      setToast({ open: true, message, severity: 'error' });
+const message = err || 'Failed to create order.';      setToast({ open: true, message, severity: 'error' });
     }
   };
 
