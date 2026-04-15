@@ -24,7 +24,7 @@ export const createOrder = createAsyncThunk(
     try {
       return await orderService.create(payload);
     } catch (error: any) {
-      console.log("FULL ERROR:", error); // 👈 debug
+      console.log("FULL ERROR:", error);
 
       return rejectWithValue(
         error?.response?.data?.message || 

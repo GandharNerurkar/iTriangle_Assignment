@@ -10,10 +10,15 @@ import LoadingIndicator from '../components/common/LoadingIndicator';
 import { formatDate } from '../utils/format';
 import type { Order } from '../types';
 import { Pagination } from '@mui/material';
+import { Modal, Paper } from '@mui/material';
+import { orderService } from '../services/orderService';
 
 function OrdersPage() {
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+const [openModal, setOpenModal] = useState(false);
+const [loadingOrder, setLoadingOrder] = useState(false);
   const [page, setPage] = useState(1);
-const rowsPerPage = 10;
+  const rowsPerPage = 10;
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((state) => state.orders);
 
@@ -44,6 +49,25 @@ const rowsPerPage = 10;
   return items.slice(start, start + rowsPerPage);
 }, [items, page]);
 
+const handleRowClick = async (row: Order) => {
+  try {
+    setOpenModal(true); // open modal first
+    setLoadingOrder(true);
+
+    const fullOrder = await orderService.detail(row.id); // API call
+
+    setSelectedOrder(fullOrder);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoadingOrder(false);
+  }
+};
+
+const handleClose = () => {
+  setOpenModal(false);
+};
+
   return (
     <Box>
       <Grid container justifyContent="space-between" alignItems="center" spacing={2} sx={{ mb: 3 }}>
@@ -65,11 +89,17 @@ const rowsPerPage = 10;
         <Typography color="error">{error}</Typography>
       ) : (
         <>
-  <DataTable
+  {/* <DataTable
     columns={columns}
-    rows={paginatedRows} // ✅ use paginated rows
+    rows={paginatedRows} 
     noDataMessage="No orders found."
-  />
+  /> */}
+  <DataTable
+  columns={columns}
+  rows={paginatedRows}
+  noDataMessage="No orders found."
+  onRowClick={handleRowClick} 
+/>
 
 
   <Box display="flex" justifyContent="center" mt={2}>
@@ -80,6 +110,64 @@ const rowsPerPage = 10;
       color="primary"
     />
   </Box>
+
+  <Modal open={openModal} onClose={handleClose}>
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    sx={{ height: '100vh' }}
+    onClick={handleClose}
+  >
+    <Paper sx={{ p: 3, width: 500, maxHeight: '80vh', overflow: 'auto' }} onClick={(e) => e.stopPropagation()}>
+      
+      {loadingOrder ? (
+        <LoadingIndicator />
+      ) : selectedOrder ? (
+        <>
+          <Typography variant="h6">
+            Order #{selectedOrder.id}
+          </Typography>
+
+          <Typography>
+            Customer: {selectedOrder.customerName}
+          </Typography>
+
+          <Box mt={2}>
+            <Typography variant="subtitle1">Items</Typography>
+
+            {selectedOrder.items?.length ? (
+              selectedOrder.items.map((item) => (
+                <Box
+                  key={item.productId}
+                  display="flex"
+                  justifyContent="space-between"
+                  mt={1}
+                >
+                  <Typography>{item.name}</Typography>
+                  <Typography>
+                    {item.quantity} × ₹{item.price.toFixed(2)}
+                  </Typography>
+                </Box>
+              ))
+            ) : (
+              <Typography>No items found</Typography>
+            )}
+          </Box>
+
+          <Box mt={2}>
+            <Typography>Subtotal: ₹{selectedOrder.subtotal}</Typography>
+            <Typography>Tax: ₹{selectedOrder.tax}</Typography>
+            <Typography fontWeight={700}>
+              Total: ₹{selectedOrder.total}
+            </Typography>
+          </Box>
+        </>
+      ) : null}
+
+    </Paper>
+  </Box>
+</Modal>
 </>
       )}
     </Box>

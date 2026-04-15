@@ -8,13 +8,24 @@ export interface Column<T> {
   renderCell?: (row: T) => ReactNode;
 }
 
+// interface DataTableProps<T> {
+//   columns: Column<T>[];
+//   rows: T[];
+//   noDataMessage?: string;
+// }
 interface DataTableProps<T> {
   columns: Column<T>[];
   rows: T[];
   noDataMessage?: string;
+  onRowClick?: (row: T) => void; // ✅ ADD THIS
 }
 
-function DataTable<T extends { id: string }>({ columns, rows, noDataMessage = 'No records found.' }: DataTableProps<T>) {
+function DataTable<T extends { id: string }>({
+  columns,
+  rows,
+  noDataMessage = 'No records found.',
+  onRowClick, // ✅ ADD THIS
+}: DataTableProps<T>) {
   return (
     <TableContainer component={Paper} elevation={2}>
       <Table>
@@ -38,7 +49,13 @@ function DataTable<T extends { id: string }>({ columns, rows, noDataMessage = 'N
             </TableRow>
           ) : (
             rows.map((row) => (
-              <TableRow key={row.id} hover>
+              // <TableRow key={row.id} hover>
+              <TableRow
+  key={row.id}
+  hover
+  onClick={() => onRowClick?.(row)}
+  sx={{ cursor: onRowClick ? 'pointer' : 'default' }}
+>
                 {columns.map((column) => (
                   <TableCell key={String(column.field)}>
                     {column.renderCell ? column.renderCell(row) : (row[column.field] as ReactNode)}
