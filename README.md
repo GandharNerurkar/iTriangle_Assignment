@@ -1,31 +1,31 @@
-# 🚀 Mini ERP Order Management System
+# Mini ERP Order Management System
 
 A full-stack ERP-style Order Management Dashboard that allows users to manage **Customers, Products, and Orders** with a clean UI and scalable backend.
 
 ---
 
-## 📌 Features
+##  Features
 
-### 👥 Customers
+### Customers
 
 * Add and manage customers
 * Unique email validation
 * View customer list
 
-### 📦 Products
+### Products
 
 * Create and update products
 * Manage product stock
 * Prevent ordering when stock is unavailable
 
-### 🛒 Orders
+### Orders
 
 * Create orders with multiple items
 * Automatic subtotal, tax, and total calculation
 * View all orders
 * Click on an order to view detailed order information (modal view)
 
-### 📊 Dashboard
+### Dashboard
 
 * Total customers, products, orders
 * Revenue calculation
@@ -33,7 +33,7 @@ A full-stack ERP-style Order Management Dashboard that allows users to manage **
 
 ---
 
-## 🧑‍💻 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -49,7 +49,7 @@ A full-stack ERP-style Order Management Dashboard that allows users to manage **
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 mini-erp/
@@ -59,9 +59,9 @@ mini-erp/
 
 ---
 
-# 🖥️ Frontend
+# Frontend
 
-## 📁 Structure
+## Structure
 
 ```
 Frontend/
@@ -112,7 +112,7 @@ Frontend/
 
 ---
 
-## 🧠 Frontend Architecture
+## Frontend Architecture
 
 * **components/** → Reusable UI components
 * **pages/** → Route-based screens
@@ -124,7 +124,7 @@ Frontend/
 
 ---
 
-## 🚀 Frontend Setup
+## Frontend Setup
 
 ```bash
 cd Frontend
@@ -140,12 +140,12 @@ VITE_API_BASE_URL=http://localhost:4001/api
 
 ---
 
-# ⚙️ Backend
+# Backend
 
-## 📁 Structure
+## Structure
 
 
-### 📁 Backend Structure
+### Backend Structure
 
 ```
 Backend/
@@ -192,7 +192,7 @@ Backend/
 
 ---
 
-## 🧠 Backend Architecture
+## Backend Architecture
 
 * **controllers/** → Handle HTTP requests
 * **services/** → Business logic layer
@@ -203,7 +203,7 @@ Backend/
 
 ---
 
-## 🚀 Backend Setup
+## Backend Setup
 
 ```bash
 cd Backend
@@ -219,11 +219,12 @@ PG_DATABASE=your_db
 PG_USER=your_user
 PG_PASSWORD=your_password
 PORT=4001
+PG_MAX=10
 ```
 
 ---
 
-## 🗄️ Initialize Database
+## Initialize Database
 
 ```bash
 node src/scripts/initDb.js
@@ -231,7 +232,7 @@ node src/scripts/initDb.js
 
 ---
 
-## ▶️ Run Backend
+##  Run Backend
 
 ```bash
 npm start
@@ -239,7 +240,7 @@ npm start
 
 ---
 
-## 🔗 API Endpoints
+## API Endpoints
 
 ### Customers
 
@@ -261,48 +262,19 @@ npm start
 
 ---
 
-## 🔥 Key Functionalities
+## Key Functionalities
 
-* Order creation with transaction handling
+* Order creation 
 * Stock validation before placing orders
 * Modal-based order detail view
 * Pagination for large datasets
 * Centralized error handling using custom ApiError
 
----
-
-## 🧠 Learnings
-
-* Built a modular full-stack application
-* Implemented transactional DB operations
-* Designed reusable UI components
-* Managed global state using Redux Toolkit
-* Ensured data integrity with stock validation
 
 ---
 
-## 🚀 Future Improvements
 
-* Authentication (JWT)
-* Role-based access
-* Order status tracking
-* Invoice generation (PDF)
-* Server-side pagination
 
----
-
-## 📸 Screenshots
-
-*Add screenshots here*
-
----
-
-## 🤝 Contributing
-
-Feel free to fork the project and submit PRs.
-
----
-
-## 👨‍💻 Author
+##  Author
 
 Gandhar Nerurkar
