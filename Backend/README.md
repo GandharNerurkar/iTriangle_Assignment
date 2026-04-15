@@ -1,6 +1,6 @@
 # Mini ERP Backend
 
-A clean Node.js + Express + PostgreSQL backend for order management.
+Node.js + Express + PostgreSQL backend for order management.
 
 ## Setup
 
