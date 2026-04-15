@@ -51,7 +51,7 @@ function App() {
           })}
         </Stack>
 
-        <Typography className="sidebar__footer">© 2026 MiniERP</Typography>
+        <Typography className="sidebar__footer">MiniERP</Typography>
       </Box>
 
       <Box component="main" className="app-content">
