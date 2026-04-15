@@ -8,23 +8,18 @@ export interface Column<T> {
   renderCell?: (row: T) => ReactNode;
 }
 
-// interface DataTableProps<T> {
-//   columns: Column<T>[];
-//   rows: T[];
-//   noDataMessage?: string;
-// }
 interface DataTableProps<T> {
   columns: Column<T>[];
   rows: T[];
   noDataMessage?: string;
-  onRowClick?: (row: T) => void; // ✅ ADD THIS
+  onRowClick?: (row: T) => void;
 }
 
 function DataTable<T extends { id: string }>({
   columns,
   rows,
   noDataMessage = 'No records found.',
-  onRowClick, // ✅ ADD THIS
+  onRowClick,
 }: DataTableProps<T>) {
   return (
     <TableContainer component={Paper} elevation={2}>
@@ -49,7 +44,7 @@ function DataTable<T extends { id: string }>({
             </TableRow>
           ) : (
             rows.map((row) => (
-              // <TableRow key={row.id} hover>
+
               <TableRow
   key={row.id}
   hover

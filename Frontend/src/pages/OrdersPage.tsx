@@ -89,11 +89,7 @@ const handleClose = () => {
         <Typography color="error">{error}</Typography>
       ) : (
         <>
-  {/* <DataTable
-    columns={columns}
-    rows={paginatedRows} 
-    noDataMessage="No orders found."
-  /> */}
+
   <DataTable
   columns={columns}
   rows={paginatedRows}
