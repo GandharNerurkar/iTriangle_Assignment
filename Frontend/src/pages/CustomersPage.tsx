@@ -66,20 +66,54 @@ function CustomersPage() {
     setModalOpen(true);
   };
 
-  const handleSubmit = async () => {
-    try {
-      if (editingCustomer) {
-        await dispatch(updateCustomer({ id: editingCustomer.id, data: formValues })).unwrap();
-        setToast({ open: true, message: 'Customer updated successfully.', severity: 'success' });
-      } else {
-        await dispatch(createCustomer(formValues)).unwrap();
-        setToast({ open: true, message: 'Customer created successfully.', severity: 'success' });
-      }
-      setModalOpen(false);
-    } catch (err) {
-      setToast({ open: true, message: 'Could not save customer.', severity: 'error' });
+  // const handleSubmit = async () => {
+  //   try {
+  //     if (editingCustomer) {
+  //       await dispatch(updateCustomer({ id: editingCustomer.id, data: formValues })).unwrap();
+  //       setToast({ open: true, message: 'Customer updated successfully.', severity: 'success' });
+  //     } else {
+  //       await dispatch(createCustomer(formValues)).unwrap();
+  //       setToast({ open: true, message: 'Customer created successfully.', severity: 'success' });
+  //     }
+  //     setModalOpen(false);
+  //   } catch (err) {
+  //     setToast({ open: true, message: 'Could not save customer.', severity: 'error' });
+  //   }
+  // };
+const handleSubmit = async () => {
+  try {
+    // ✅ VALIDATION
+    if (!formValues.name.trim()) {
+      setToast({
+        open: true,
+        message: 'Customer name is required',
+        severity: 'error',
+      });
+      return;
     }
-  };
+
+    if (!formValues.email.trim()) {
+      setToast({
+        open: true,
+        message: 'Email is required',
+        severity: 'error',
+      });
+      return;
+    }
+
+    if (editingCustomer) {
+      await dispatch(updateCustomer({ id: editingCustomer.id, data: formValues })).unwrap();
+      setToast({ open: true, message: 'Customer updated successfully.', severity: 'success' });
+    } else {
+      await dispatch(createCustomer(formValues)).unwrap();
+      setToast({ open: true, message: 'Customer created successfully.', severity: 'success' });
+    }
+
+    setModalOpen(false);
+  } catch (err) {
+    setToast({ open: true, message: 'Could not save customer.', severity: 'error' });
+  }
+};
 
   return (
     <Box>
