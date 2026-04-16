@@ -1,5 +1,5 @@
-const productService = require('../services/productService');
-const { sendSuccess } = require('../utils/response');
+const productService = require('./product.service');
+const { sendSuccess } = require('../../core/utils/response');
 
 exports.createProduct = async (req, res, next) => {
   try {

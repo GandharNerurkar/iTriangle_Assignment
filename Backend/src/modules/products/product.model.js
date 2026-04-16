@@ -1,7 +1,7 @@
-const db = require('../config/db');
+const db = require('../../core/config/db');
 
 async function createProduct({ name, price, stock }) {
-  console.log("FINAL INSERT VALUES:", name, price, stock); 
+  console.log("FINAL INSERT VALUES:", name, price, stock);
   const result = await db.query(
     `INSERT INTO products (name, price, stock) 
      VALUES ($1, $2, $3) 

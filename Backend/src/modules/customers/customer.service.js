@@ -1,6 +1,6 @@
-const customerModel = require('../models/customerModel');
-const ApiError = require('../utils/apiError');
-const { validateEmail } = require('../utils/validators');
+const customerModel = require('./customer.model');
+const ApiError = require('../../core/utils/apiError');
+const { validateEmail } = require('../../core/utils/validators');
 
 async function createCustomer({ name, email, phone }) {
   if (!name || !email) {

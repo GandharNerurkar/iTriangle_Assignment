@@ -1,5 +1,5 @@
-const customerService = require('../services/customerService');
-const { sendSuccess } = require('../utils/response');
+const customerService = require('./customer.service');
+const { sendSuccess } = require('../../core/utils/response');
 
 exports.createCustomer = async (req, res, next) => {
   try {

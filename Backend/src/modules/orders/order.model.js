@@ -1,5 +1,4 @@
-const db = require('../config/db');
-const ApiError = require('../utils/apiError')
+const db = require('../../core/config/db');
 
 async function createOrder({ customer_id, items }) {
   const client = await db.getClient();
@@ -8,63 +7,19 @@ async function createOrder({ customer_id, items }) {
     await client.query('BEGIN');
 
     if (!items || items.length === 0) {
-      throw new ApiError(400, "Items are required");
+      throw new Error("Items are required");
     }
 
-    //Check customer exists
-    const customerResult = await client.query(
-      'SELECT id FROM customers WHERE id = $1',
-      [customer_id]
-    );
-
-    if (customerResult.rowCount === 0) {
-      throw new ApiError(404, "Customer not found");
-    }
-
+    //this will calculate the values
     let subtotal = 0;
 
-    const processedItems = [];
-
     for (const item of items) {
-      if (!item.product_id || !item.quantity) {
-        throw new ApiError(400, "Invalid item format");
-      }
-
-      // Get product details
-      const productResult = await client.query(
-        'SELECT name, price, stock FROM products WHERE id = $1',
-        [item.product_id]
-      );
-
-      if (productResult.rowCount === 0) {
-        throw new ApiError(404, `Product ${item.product_id} not found`);
-      }
-
-      const { name, price, stock } = productResult.rows[0];
-
-
-if (stock === 0) {
-  throw new ApiError(400, `${name} is out of stock`);
-}
-
-//  NOT ENOUGH STOCK
-if (stock < item.quantity) {
-throw new ApiError(400, `Only ${stock} items available for product ${name}`);}
-
-      // Calculate subtotal
-      subtotal += item.quantity * price;
-
-      processedItems.push({
-        product_id: item.product_id,
-        quantity: item.quantity,
-        price,
-      });
+      subtotal += item.quantity * item.price;
     }
 
     const tax = subtotal * 0.1;
     const total = subtotal + tax;
 
-    // Insert order
     const orderResult = await client.query(
       `INSERT INTO orders (customer_id, subtotal, tax, total) 
        VALUES ($1, $2, $3, $4) 
@@ -74,26 +29,21 @@ throw new ApiError(400, `Only ${stock} items available for product ${name}`);}
 
     const order = orderResult.rows[0];
 
-    // Insert order items + update stock
-    for (const item of processedItems) {
-      await client.query(
+    const insertPromises = items.map((item) =>
+      client.query(
         `INSERT INTO order_items (order_id, product_id, quantity, price) 
          VALUES ($1, $2, $3, $4)`,
         [order.id, item.product_id, item.quantity, item.price]
-      );
+      )
+    );
 
-      // Deduct stock
-      await client.query(
-        'UPDATE products SET stock = stock - $1 WHERE id = $2',
-        [item.quantity, item.product_id]
-      );
-    }
+    await Promise.all(insertPromises);
 
     await client.query('COMMIT');
 
     return {
       ...order,
-      items: processedItems,
+      items,
     };
   } catch (error) {
     console.error("ORDER ERROR:", error);

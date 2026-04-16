@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
-const routes = require('./routes');
-const requestLogger = require('./middlewares/requestLogger');
-const errorHandler = require('./middlewares/errorHandler');
-const notFoundHandler = require('./middlewares/notFound');
-require('./config/env');
+const routes = require('./modules');
+const requestLogger = require('./core/middlewares/requestLogger');
+const errorHandler = require('./core/middlewares/errorHandler');
+const notFoundHandler = require('./core/middlewares/notFound');
+require('./core/config/env');
 
 const app = express();
 

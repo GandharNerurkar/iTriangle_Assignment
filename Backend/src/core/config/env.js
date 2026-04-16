@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 const requiredVars = ['PG_HOST', 'PG_PORT', 'PG_DATABASE', 'PG_USER', 'PG_PASSWORD'];
 for (const key of requiredVars) {
@@ -10,7 +10,7 @@ for (const key of requiredVars) {
   }
 }
 
-const port = Number(process.env.PORT) || 4000;
+const port = Number(process.env.PORT) || 4001;
 const pg = {
   host: process.env.PG_HOST,
   port: Number(process.env.PG_PORT) || 5432,

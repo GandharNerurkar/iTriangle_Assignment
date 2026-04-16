@@ -1,5 +1,5 @@
-const orderService = require('../services/orderService');
-const { sendSuccess } = require('../utils/response');
+const orderService = require('./order.service');
+const { sendSuccess } = require('../../core/utils/response');
 
 exports.createOrder = async (req, res, next) => {
   try {

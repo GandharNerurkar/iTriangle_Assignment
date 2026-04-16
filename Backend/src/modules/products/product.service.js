@@ -1,5 +1,5 @@
-const productModel = require('../models/productModel');
-const ApiError = require('../utils/apiError');
+const productModel = require('./product.model');
+const ApiError = require('../../core/utils/apiError');
 
 async function createProduct({ name, price, stock }) {
   if (!name || price === undefined) {
@@ -54,7 +54,7 @@ async function updateProduct(id, { name, price, stock }) {
     stock = numericStock;
   }
 
-  return productModel.updateProduct(id, { name, price, stock }); 
+  return productModel.updateProduct(id, { name, price, stock });
 }
 
 module.exports = {

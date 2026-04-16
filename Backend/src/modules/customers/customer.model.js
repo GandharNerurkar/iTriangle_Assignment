@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../../core/config/db');
 
 async function createCustomer({ name, email, phone }) {
   const result = await db.query(
