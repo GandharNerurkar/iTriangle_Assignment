@@ -69,24 +69,9 @@ function ProductsPage() {
     setModalOpen(true);
   };
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     if (editingProduct) {
-  //       await dispatch(updateProduct({ id: editingProduct.id, data: formValues })).unwrap();
-  //       setToast({ open: true, message: 'Product updated successfully.', severity: 'success' });
-  //     } else {
-  //       await dispatch(createProduct(formValues)).unwrap();
-  //       setToast({ open: true, message: 'Product created successfully.', severity: 'success' });
-  //     }
-  //     setModalOpen(false);
-  //   } catch (err) {
-  //     setToast({ open: true, message: 'Could not save product.', severity: 'error' });
-  //   }
-  // };
-
 const handleSubmit = async () => {
   try {
-    // ✅ VALIDATION
+
 
     if (!formValues.name.trim()) {
       setToast({
