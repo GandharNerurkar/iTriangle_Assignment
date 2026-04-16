@@ -129,7 +129,7 @@ Frontend/
 ```bash
 cd Frontend
 npm install
-npm start
+npm run dev
 ```
 
 ### Create `.env`
@@ -227,7 +227,7 @@ PG_MAX=10
 ## Initialize Database
 
 ```bash
-node src/scripts/initDb.js
+npm run db:init
 ```
 
 ---
