@@ -2,16 +2,16 @@ import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { useAppSelector } from '../hooks/useAppSelector';
-import { fetchOrders } from '../redux/slices/ordersSlice';
-import DataTable, { type Column } from '../components/common/DataTable';
-import LoadingIndicator from '../components/common/LoadingIndicator';
-import { formatDate } from '../utils/format';
+import { useAppDispatch } from '../common/hooks/useAppDispatch';
+import { useAppSelector } from '../common/hooks/useAppSelector';
+import { fetchOrders } from '../features/orders/ordersSlice';
+import DataTable, { type Column } from '../common/components/DataTable';
+import LoadingIndicator from '../common/components/LoadingIndicator';
+import { formatDate } from '../common/utils/format';
 import type { Order } from '../types';
 import { Pagination } from '@mui/material';
 import { Modal, Paper } from '@mui/material';
-import { orderService } from '../services/orderService';
+import { orderService } from '../features/orders/orderService';
 
 function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);

@@ -1,5 +1,5 @@
-import { api } from './api';
-import type { Customer } from '../types';
+import { api } from '../../common/utils/api';
+import type { Customer } from '../../types';
 
 interface ApiResponse<T> {
   success: boolean;

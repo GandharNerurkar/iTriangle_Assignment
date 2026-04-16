@@ -1,5 +1,5 @@
-import { api } from './api';
-import type { Order, OrderItem } from '../types';
+import { api } from '../../common/utils/api';
+import type { Order, OrderItem } from '../../types';
 
 export interface CreateOrderPayload {
   customerId: string;

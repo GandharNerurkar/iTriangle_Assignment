@@ -114,13 +114,13 @@ Frontend/
 
 ## Frontend Architecture
 
-* **components/** → Reusable UI components
-* **pages/** → Route-based screens
-* **redux/** → Global state management
-* **services/** → API abstraction layer
-* **hooks/** → Custom typed hooks
-* **types/** → Centralized TypeScript types
-* **utils/** → Helper functions
+* **features/** → Feature-based modules (customers, orders, products), each containing its own components, logic, and state
+* **common/** → Reusable/shared code across the app (components, hooks, utils)
+* **pages/** → Route-level pages (used for navigation and layout composition)
+* **redux/** → Global store configuration and shared state setup
+* **types/** → Global TypeScript types used across multiple features
+* **App.tsx** → Root component handling routing and layout
+* **main.tsx** → Application entry point
 
 ---
 
@@ -153,34 +153,17 @@ Backend/
 ├── sql/
 │   └── schema.sql         # Database schema
 ├── src/
-│   ├── config/            # Configuration files
-│   ├── controllers/       # Route controllers
-│   │   ├── customerController.js
-│   │   ├── orderController.js
-│   │   └── productController.js
-│   ├── middlewares/       # Custom middleware
-│   │   ├── errorHandler.js
-│   │   ├── notFound.js
-│   │   └── requestLogger.js
-│   ├── models/            # Database models
-│   │   ├── customerModel.js
-│   │   ├── orderModel.js
-│   │   └── productModel.js
-│   ├── routes/            # API routes
-│   │   ├── customerRoutes.js
-│   │   ├── index.js
-│   │   ├── orderRoutes.js
-│   │   └── productRoutes.js
+│   ├── core/              # Core application configurations and utilities
+│   │   ├── config/        # Environment and DB config
+│   │   ├── middlewares/   # Custom middlewares
+│   │   └── utils/         # Helper functions
+│   ├── modules/           # Feature-based modular logic
+│   │   ├── customers/     # Customer routes, controller, service, model
+│   │   ├── orders/        # Order routes, controller, service, model
+│   │   ├── products/      # Product routes, controller, service, model
+│   │   └── index.js       # Central route aggregator
 │   ├── scripts/           # Utility scripts
 │   │   └── initDb.js
-│   ├── services/          # Business logic
-│   │   ├── customerService.js
-│   │   ├── orderService.js
-│   │   └── productService.js
-│   ├── utils/             # Helper functions
-│   │   ├── apiError.js
-│   │   ├── response.js
-│   │   └── validators.js
 │   ├── app.js             # Express app setup
 │   └── server.js          # Server entry point
 ├── .env                   # Environment variables
@@ -192,14 +175,14 @@ Backend/
 
 ---
 
-## Backend Architecture
+## Backend Architecture (Modular)
 
-* **controllers/** → Handle HTTP requests
-* **services/** → Business logic layer
-* **models/** → Database queries
-* **routes/** → API routes
-* **config/** → DB & environment setup
-* **utils/** → Error handling & helpers
+* **core/** → Global configurations, middlewares, and utilities
+* **modules/** → Feature-based modules containing logic for independent entities:
+  * **routes** → API route definitions
+  * **controllers** → Handling HTTP requests and responses
+  * **services** → Business logic layer
+  * **models** → Database queries and data access
 
 ---
 

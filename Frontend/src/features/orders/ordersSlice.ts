@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { orderService, type CreateOrderPayload } from '../../services/orderService';
+import { orderService, type CreateOrderPayload } from '../../features/orders/orderService';
 import type { Order } from '../../types';
 
 interface OrdersState {

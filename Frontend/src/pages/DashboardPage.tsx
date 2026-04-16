@@ -4,13 +4,13 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 import ViewInArOutlinedIcon from '@mui/icons-material/ViewInArOutlined';
 import { Box, Grid, Typography } from '@mui/material';
-import { useAppDispatch } from '../hooks/useAppDispatch';
-import { useAppSelector } from '../hooks/useAppSelector';
-import { fetchCustomers } from '../redux/slices/customersSlice';
-import { fetchProducts } from '../redux/slices/productsSlice';
-import { fetchOrders } from '../redux/slices/ordersSlice';
-import SummaryCard from '../components/common/SummaryCard';
-import LoadingIndicator from '../components/common/LoadingIndicator';
+import { useAppDispatch } from '../common/hooks/useAppDispatch';
+import { useAppSelector } from '../common/hooks/useAppSelector';
+import { fetchCustomers } from '../features/customers/customersSlice';
+import { fetchProducts } from '../features/products/productsSlice';
+import { fetchOrders } from '../features/orders/ordersSlice';
+import SummaryCard from '../common/components/SummaryCard';
+import LoadingIndicator from '../common/components/LoadingIndicator';
 
 function DashboardPage() {
   const dispatch = useAppDispatch();
