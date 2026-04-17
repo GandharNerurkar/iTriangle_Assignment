@@ -1,16 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Button, Grid, Paper, Typography, IconButton } from '@mui/material';
+import { Box, Button, Grid, Typography, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { useAppDispatch } from '../common/hooks/useAppDispatch';
-import { useAppSelector } from '../common/hooks/useAppSelector';
-import { fetchCustomers, createCustomer, updateCustomer } from '../features/customers/customersSlice';
-import DataTable, { type Column } from '../common/components/DataTable';
-import ModalForm from '../common/components/ModalForm';
-import FormInput from '../common/components/FormInput';
-import AlertSnackbar from '../common/components/AlertSnackbar';
-import LoadingIndicator from '../common/components/LoadingIndicator';
-import type { Customer } from '../types';
+import { useAppDispatch } from '@shared/hooks/useAppDispatch';
+import { useAppSelector } from '@shared/hooks/useAppSelector';
+import { fetchCustomers, createCustomer, updateCustomer } from '@features/customers/customersSlice';
+import DataTable, { type Column } from '@shared/components/DataTable';
+import ModalForm from '@shared/components/ModalForm';
+import FormInput from '@shared/components/FormInput';
+import AlertSnackbar from '@shared/components/AlertSnackbar';
+import { TableSkeleton } from '@shared/components/PageSkeleton';
+import type { Customer } from '@shared/types';
 
 const initialForm = { name: '', email: '', phone: '' };
 
@@ -25,6 +25,7 @@ function CustomersPage() {
     message: '',
     severity: 'success',
   });
+  const initialLoading = loading && items.length === 0;
 
   useEffect(() => {
     dispatch(fetchCustomers());
@@ -116,8 +117,8 @@ const handleSubmit = async () => {
           </Button>
         </Grid>
       </Grid>
-      {loading ? (
-        <LoadingIndicator />
+      {initialLoading ? (
+        <TableSkeleton columns={columns.length} />
       ) : (
         <DataTable columns={columns} rows={items} noDataMessage="No customers found." />
       )}

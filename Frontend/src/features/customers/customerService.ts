@@ -1,5 +1,5 @@
-import { api } from '../../common/utils/api';
-import type { Customer } from '../../types';
+import { api } from '@shared/lib/api';
+import type { Customer } from '@shared/types';
 
 interface ApiResponse<T> {
   success: boolean;

@@ -1,5 +1,5 @@
-import { api } from '../../common/utils/api';
-import type { Order, OrderItem } from '../../types';
+import { api } from '@shared/lib/api';
+import type { Order, OrderItem } from '@shared/types';
 
 export interface CreateOrderPayload {
   customerId: string;

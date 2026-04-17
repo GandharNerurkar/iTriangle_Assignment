@@ -3,14 +3,14 @@ import { Box, Button, Grid, Paper, Typography, IconButton, TextField, MenuItem }
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../common/hooks/useAppDispatch';
-import { useAppSelector } from '../common/hooks/useAppSelector';
-import { fetchCustomers } from '../features/customers/customersSlice';
-import { fetchProducts } from '../features/products/productsSlice';
-import { createOrder } from '../features/orders/ordersSlice';
-import AlertSnackbar from '../common/components/AlertSnackbar';
-import LoadingIndicator from '../common/components/LoadingIndicator';
-import { inr } from '../common/utils/format';
+import { useAppDispatch } from '@shared/hooks/useAppDispatch';
+import { useAppSelector } from '@shared/hooks/useAppSelector';
+import { fetchCustomers } from '@features/customers/customersSlice';
+import { fetchProducts } from '@features/products/productsSlice';
+import { createOrder } from '@features/orders/ordersSlice';
+import AlertSnackbar from '@shared/components/AlertSnackbar';
+import { OrderFormSkeleton } from '@shared/components/PageSkeleton';
+import { inr } from '@shared/lib/format';
 
 interface OrderRow {
   id: string;
@@ -106,7 +106,7 @@ const message = err || 'Failed to create order.';      setToast({ open: true, me
         Add order details, choose a customer, and select products with quantities.
       </Typography>
       {loading ? (
-        <LoadingIndicator />
+        <OrderFormSkeleton />
       ) : (
         <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>

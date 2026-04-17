@@ -2,16 +2,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import { useAppDispatch } from '../common/hooks/useAppDispatch';
-import { useAppSelector } from '../common/hooks/useAppSelector';
-import { fetchOrders } from '../features/orders/ordersSlice';
-import DataTable, { type Column } from '../common/components/DataTable';
-import LoadingIndicator from '../common/components/LoadingIndicator';
-import { formatDate } from '../common/utils/format';
-import type { Order } from '../types';
+import { useAppDispatch } from '@shared/hooks/useAppDispatch';
+import { useAppSelector } from '@shared/hooks/useAppSelector';
+import { fetchOrders } from '@features/orders/ordersSlice';
+import DataTable, { type Column } from '@shared/components/DataTable';
+import LoadingIndicator from '@shared/components/LoadingIndicator';
+import { TableSkeleton } from '@shared/components/PageSkeleton';
+import { formatDate } from '@shared/lib/format';
+import type { Order } from '@shared/types';
 import { Pagination } from '@mui/material';
 import { Modal, Paper } from '@mui/material';
-import { orderService } from '../features/orders/orderService';
+import { orderService } from '@features/orders/orderService';
 
 function OrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -21,6 +22,7 @@ const [loadingOrder, setLoadingOrder] = useState(false);
   const rowsPerPage = 10;
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((state) => state.orders);
+  const initialLoading = loading && items.length === 0;
 
   useEffect(() => {
     dispatch(fetchOrders());
@@ -83,8 +85,8 @@ const handleClose = () => {
           </Button>
         </Grid>
       </Grid>
-      {loading ? (
-        <LoadingIndicator />
+      {initialLoading ? (
+        <TableSkeleton columns={columns.length} />
       ) : error ? (
         <Typography color="error">{error}</Typography>
       ) : (

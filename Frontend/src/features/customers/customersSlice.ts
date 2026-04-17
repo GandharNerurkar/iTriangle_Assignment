@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { customerService } from '../../features/customers/customerService';
-import type { Customer } from '../../types';
+import { customerService } from '@features/customers/customerService';
+import type { Customer } from '@shared/types';
 
 interface CustomersState {
   items: Customer[];

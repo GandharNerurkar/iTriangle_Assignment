@@ -2,15 +2,15 @@ import { useEffect, useMemo, useState } from 'react';
 import { Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { useAppDispatch } from '../common/hooks/useAppDispatch';
-import { useAppSelector } from '../common/hooks/useAppSelector';
-import { fetchProducts, createProduct, updateProduct } from '../features/products/productsSlice';
-import type { Product } from '../types';
-import DataTable, { type Column } from '../common/components/DataTable';
-import ModalForm from '../common/components/ModalForm';
-import FormInput from '../common/components/FormInput';
-import AlertSnackbar from '../common/components/AlertSnackbar';
-import LoadingIndicator from '../common/components/LoadingIndicator';
+import { useAppDispatch } from '@shared/hooks/useAppDispatch';
+import { useAppSelector } from '@shared/hooks/useAppSelector';
+import { fetchProducts, createProduct, updateProduct } from '@features/products/productsSlice';
+import type { Product } from '@shared/types';
+import DataTable, { type Column } from '@shared/components/DataTable';
+import ModalForm from '@shared/components/ModalForm';
+import FormInput from '@shared/components/FormInput';
+import AlertSnackbar from '@shared/components/AlertSnackbar';
+import { TableSkeleton } from '@shared/components/PageSkeleton';
 import { Pagination } from '@mui/material';
 
 const initialForm = { name: '', price: 0, stock: 0 };
@@ -28,6 +28,7 @@ function ProductsPage() {
     message: '',
     severity: 'success',
   });
+  const initialLoading = loading && items.length === 0;
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -134,8 +135,8 @@ const handleSubmit = async () => {
           </Button>
         </Grid>
       </Grid>
-      {loading ? (
-        <LoadingIndicator />
+      {initialLoading ? (
+        <TableSkeleton columns={columns.length} />
       ) : (
         <>
   <DataTable

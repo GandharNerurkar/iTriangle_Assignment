@@ -6,11 +6,11 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ViewInArOutlinedIcon from '@mui/icons-material/ViewInArOutlined';
 import { Box, Stack, Typography } from '@mui/material';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import DashboardPage from './pages/DashboardPage';
-import CustomersPage from './pages/CustomersPage';
-import ProductsPage from './pages/ProductsPage';
-import OrdersPage from './pages/OrdersPage';
-import CreateOrderPage from './pages/CreateOrderPage';
+import DashboardPage from '@features/dashboard/DashboardPage';
+import CustomersPage from '@features/customers/CustomersPage';
+import ProductsPage from '@features/products/ProductsPage';
+import OrdersPage from '@features/orders/OrdersPage';
+import CreateOrderPage from '@features/orders/CreateOrderPage';
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: DashboardRoundedIcon },

@@ -4,13 +4,13 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import TrendingUpRoundedIcon from '@mui/icons-material/TrendingUpRounded';
 import ViewInArOutlinedIcon from '@mui/icons-material/ViewInArOutlined';
 import { Box, Grid, Typography } from '@mui/material';
-import { useAppDispatch } from '../common/hooks/useAppDispatch';
-import { useAppSelector } from '../common/hooks/useAppSelector';
-import { fetchCustomers } from '../features/customers/customersSlice';
-import { fetchProducts } from '../features/products/productsSlice';
-import { fetchOrders } from '../features/orders/ordersSlice';
-import SummaryCard from '../common/components/SummaryCard';
-import LoadingIndicator from '../common/components/LoadingIndicator';
+import { useAppDispatch } from '@shared/hooks/useAppDispatch';
+import { useAppSelector } from '@shared/hooks/useAppSelector';
+import { fetchCustomers } from '@features/customers/customersSlice';
+import { fetchProducts } from '@features/products/productsSlice';
+import { fetchOrders } from '@features/orders/ordersSlice';
+import SummaryCard from '@shared/components/SummaryCard';
+import { SummaryCardsSkeleton } from '@shared/components/PageSkeleton';
 
 function DashboardPage() {
   const dispatch = useAppDispatch();
@@ -25,6 +25,8 @@ function DashboardPage() {
   }, [dispatch]);
 
   const loading = customers.loading || products.loading || orders.loading;
+  const initialLoading =
+    loading && customers.items.length === 0 && products.items.length === 0 && orders.items.length === 0;
   const revenue = orders.items.reduce((total, order) => total + order.total, 0);
 
   return (
@@ -36,8 +38,8 @@ function DashboardPage() {
         Overview of your business metrics
       </Typography>
 
-      {loading ? (
-        <LoadingIndicator />
+      {initialLoading ? (
+        <SummaryCardsSkeleton />
       ) : (
         <Grid container spacing={3}>
   <Grid item xs={12} sm={6}>

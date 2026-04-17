@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { productService } from '../../features/products/productService';
-import type { Product } from '../../types';
+import { productService } from '@features/products/productService';
+import type { Product } from '@shared/types';
 
 interface ProductsState {
   items: Product[];
